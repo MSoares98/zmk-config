@@ -1,0 +1,264 @@
+/*
+ * Copyright (c) 2022 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Hand-ported from miryoku_zmk/miryoku/custom_config.h (Miryoku layout),
+ * native ZMK syntax, no dependency on the miryoku_zmk framework.
+ *
+ * Layers: 0 base, 1 tap, 2 button, 3 nav, 4 mouse, 5 media, 6 num, 7 sym, 8 fun
+ * (Miryoku's EXTRA layer dropped per request; its double-tap targets are &none.)
+ *
+ * Physical layout: 3 rows x 5 cols/side (positions 0-29) + 2 thumb keys/side
+ * (30,31 left / 32,33 right). Miryoku's reference layout wants 3 thumb keys
+ * per side, so the 3rd function per side is synthesized via a combo of the
+ * two physical thumb keys on that side (matches miryoku's mapping/34/ferris.h
+ * + miryoku_kludge_thumbcombos.dtsi behavior).
+ *
+ * Mouse layer uses ZMK's native pointer behaviors (&mmv/&msc/&mkp), not
+ * Miryoku's default numpad-key placeholder, per request.
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/pointing.h>
+#include <dt-bindings/zmk/mouse.h>
+
+/ {
+    behaviors {
+        hm: home_row_mod {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+
+        ltp: layer_tap_preferred {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "tap-preferred";
+            bindings = <&mo>, <&kp>;
+        };
+
+        capsmm: caps_mod_morph {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&caps_word>, <&kp CAPS>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        bt0: bt_sel_0_mm {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 0>, <&bt_clear_0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt1: bt_sel_1_mm {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 1>, <&bt_clear_1>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt2: bt_sel_2_mm {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 2>, <&bt_clear_2>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt3: bt_sel_3_mm {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 3>, <&bt_clear_3>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt4: bt_sel_4_mm {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 4>, <&bt_clear_4>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        td_base: td_to_base {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 0>;
+        };
+        td_tap: td_to_tap {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 1>;
+        };
+        td_nav: td_to_nav {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 3>;
+        };
+        td_mouse: td_to_mouse {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 4>;
+        };
+        td_media: td_to_media {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 5>;
+        };
+        td_num: td_to_num {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 6>;
+        };
+        td_sym: td_to_sym {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 7>;
+        };
+        td_fun: td_to_fun {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&to 8>;
+        };
+    };
+
+    macros {
+        bt_clear_0: bt_clear_0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 0>, <&bt BT_CLR>;
+        };
+        bt_clear_1: bt_clear_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 1>, <&bt BT_CLR>;
+        };
+        bt_clear_2: bt_clear_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 2>, <&bt BT_CLR>;
+        };
+        bt_clear_3: bt_clear_3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 3>, <&bt BT_CLR>;
+        };
+        bt_clear_4: bt_clear_4 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 4>, <&bt BT_CLR>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        /* left thumb pair (30,31) -> synthesized 3rd left-thumb function */
+        thumb_l_base   { layers = <0>; timeout-ms = <200>; key-positions = <30 31>; bindings = <&ltp 5 ESC>; };
+        thumb_l_button { layers = <2>; timeout-ms = <200>; key-positions = <30 31>; bindings = <&mkp MB3>; };
+        thumb_l_num    { layers = <6>; timeout-ms = <200>; key-positions = <30 31>; bindings = <&kp DOT>; };
+        thumb_l_sym    { layers = <7>; timeout-ms = <200>; key-positions = <30 31>; bindings = <&kp LPAR>; };
+        thumb_l_fun    { layers = <8>; timeout-ms = <200>; key-positions = <30 31>; bindings = <&kp K_APP>; };
+
+        /* right thumb pair (32,33) -> synthesized 3rd right-thumb function */
+        thumb_r_base   { layers = <0>; timeout-ms = <200>; key-positions = <32 33>; bindings = <&ltp 8 DEL>; };
+        thumb_r_button { layers = <2>; timeout-ms = <200>; key-positions = <32 33>; bindings = <&mkp MB3>; };
+        thumb_r_nav    { layers = <3>; timeout-ms = <200>; key-positions = <32 33>; bindings = <&kp DEL>; };
+        thumb_r_mouse  { layers = <4>; timeout-ms = <200>; key-positions = <32 33>; bindings = <&mkp MB3>; };
+        thumb_r_media  { layers = <5>; timeout-ms = <200>; key-positions = <32 33>; bindings = <&kp C_MUTE>; };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base_layer {
+            bindings = <
+&kp Q       &kp W       &kp E       &kp R       &kp T             &kp Y       &kp U       &kp I       &kp O       &kp P
+&hm LGUI A  &hm LALT S  &hm LCTRL D &hm LSHFT F &kp G             &kp H       &hm LSHFT J &hm LCTRL K &hm LALT L  &hm LGUI SQT
+&ltp 2 Z    &hm RALT X  &kp C       &kp V       &kp B             &kp N       &kp M       &kp COMMA   &hm RALT DOT &ltp 2 SLASH
+                        &ltp 3 SPACE &ltp 6 TAB                    &ltp 7 RET  &ltp 8 BSPC
+            >;
+        };
+
+        tap_layer {
+            bindings = <
+&kp Q  &kp W  &kp E  &kp R  &kp T             &kp Y  &kp U  &kp I     &kp O   &kp P
+&kp A  &kp S  &kp D  &kp F  &kp G             &kp H  &kp J  &kp K     &kp L   &kp SQT
+&kp Z  &kp X  &kp C  &kp V  &kp B             &kp N  &kp M  &kp COMMA &kp DOT &kp SLASH
+                     &kp SPACE &kp TAB         &kp RET &kp BSPC
+            >;
+        };
+
+        button_layer {
+            bindings = <
+&kp K_UNDO &kp LS(DEL) &kp LC(INS) &kp LS(INS) &kp K_AGAIN         &kp K_AGAIN &kp LS(INS) &kp LC(INS) &kp LS(DEL) &kp K_UNDO
+&kp LGUI   &kp LALT    &kp LCTRL   &kp LSHFT   &none               &none       &kp LSHFT   &kp LCTRL   &kp LALT    &kp LGUI
+&kp K_UNDO &kp LS(DEL) &kp LC(INS) &kp LS(INS) &kp K_AGAIN         &kp K_AGAIN &kp LS(INS) &kp LC(INS) &kp LS(DEL) &kp K_UNDO
+                       &mkp MB1    &mkp MB2                         &mkp MB2    &mkp MB1
+            >;
+        };
+
+        nav_layer {
+            bindings = <
+&bootloader &td_tap  &none    &td_base &none               &kp K_AGAIN &kp LS(INS) &kp LC(INS) &kp LS(DEL) &kp K_UNDO
+&kp LGUI    &kp LALT &kp LCTRL &kp LSHFT &none              &kp LEFT    &kp DOWN    &kp UP      &kp RIGHT   &capsmm
+&none       &kp RALT &td_num  &td_nav  &none               &kp HOME    &kp PG_DN   &kp PG_UP   &kp END     &kp INS
+                     &none    &none                          &kp RET     &kp BSPC
+            >;
+        };
+
+        mouse_layer {
+            bindings = <
+&bootloader &td_tap  &none    &td_base &none               &kp K_AGAIN &kp LS(INS) &kp LC(INS) &kp LS(DEL) &kp K_UNDO
+&kp LGUI    &kp LALT &kp LCTRL &kp LSHFT &none              &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &none
+&none       &kp RALT &td_sym  &td_mouse &none               &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_UP &msc SCRL_RIGHT &none
+                     &none    &none                          &mkp MB2    &mkp MB1
+            >;
+        };
+
+        media_layer {
+            bindings = <
+&bootloader &td_tap  &none    &td_base &none    &none       &none        &none        &none        &none
+&kp LGUI    &kp LALT &kp LCTRL &kp LSHFT &none  &kp C_PREV  &kp C_VOL_DN &kp C_VOL_UP &kp C_NEXT  &none
+&none       &kp RALT &td_fun  &td_media &none   &bt0        &bt1         &bt2         &bt3        &bt4
+                     &none    &none                          &kp C_STOP  &kp C_PP
+            >;
+        };
+
+        num_layer {
+            bindings = <
+&bootloader &td_tap  &none    &td_base &none    &kp LBKT &kp N7 &kp N8 &kp N9 &kp RBKT
+&kp LGUI    &kp LALT &kp LCTRL &kp LSHFT &none              &kp EQUAL &kp N4 &kp N5 &kp N6 &kp SEMI
+&none       &kp RALT &td_nav  &td_num  &none               &kp BSLH &kp N1 &kp N2 &kp N3 &kp GRAVE
+                     &none    &none                          &kp KP_DOT &kp N0
+            >;
+        };
+
+        sym_layer {
+            bindings = <
+&kp LBRC &kp LPAR &kp ASTRK &kp RPAR &kp RBRC             &none &td_base &none    &td_tap  &bootloader
+&kp COLON &kp DLLR &kp PRCNT &kp CARET &kp PLUS            &none &kp LSHFT &kp LCTRL &kp LALT &kp LGUI
+&kp TILDE &kp EXCL &kp AT   &kp HASH &kp PIPE              &none &td_sym  &td_mouse &kp RALT &none
+                  &kp AMPS &kp UNDER                        &none    &none
+            >;
+        };
+
+        fun_layer {
+            bindings = <
+&kp F12  &kp F7  &kp F8  &kp F9  &kp PSCRN                 &none &td_base &none    &td_tap  &bootloader
+&kp F11  &kp F4  &kp F5  &kp F6  &kp SLCK                  &none &kp LSHFT &kp LCTRL &kp LALT &kp LGUI
+&kp F10  &kp F1  &kp F2  &kp F3  &kp PAUSE_BREAK           &none &td_fun  &td_media &kp RALT &none
+                 &kp SPACE &kp TAB                          &none    &none
+            >;
+        };
+    };
+};
