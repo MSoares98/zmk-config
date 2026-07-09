@@ -248,7 +248,7 @@
 &kp LBRC &kp LPAR &kp ASTRK &kp RPAR &kp RBRC             &none &td_base &none    &td_tap  &bootloader
 &kp COLON &kp DLLR &kp PRCNT &kp CARET &kp PLUS            &none &kp LSHFT &kp LCTRL &kp LALT &kp LGUI
 &kp TILDE &kp EXCL &kp AT   &kp HASH &kp PIPE              &none &td_sym  &td_mouse &kp RALT &none
-                  &kp AMPS &kp UNDER                        &none    &none
+                  &kp AMPS &kp MINUS                        &none    &none
             >;
         };
 
